@@ -110,6 +110,7 @@ private:
 
     QMenu *windowMenu;
     QAction *newAct;
+    QAction *exportgiftAct;
     QAction *saveAct;
     QAction *saveAsAct;
     QAction *recentFileActs[MaxRecentFiles];

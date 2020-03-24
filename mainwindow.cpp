@@ -200,6 +200,11 @@ void MainWindow::openRecentFile()
 
 void MainWindow::exportgift()
 {
+    QMessageBox::information(
+        this,
+        tr("exportgift"),
+        tr("exportgift.") );
+
     if (activeMdiChild() && activeMdiChild()->exportgift())
         statusBar()->showMessage(tr("File saved"), 2000);
 }
@@ -346,6 +351,17 @@ void MainWindow::createActions()
     saveAct->setStatusTip(tr("Save the document to disk"));
     connect(saveAct, &QAction::triggered, this, &MainWindow::save);
     fileToolBar->addAction(saveAct);
+
+    const QIcon exportgiftIcon = QIcon::fromTheme("document-exportgift", QIcon(":/images/exportgift.png"));
+    exportgiftAct = new QAction(exportgiftIcon, tr("&Export to GIFT"), this);
+    QList<QKeySequence> shortcuts;
+    shortcuts.append(QKeySequence(Qt::CTRL + Qt::Key_R));
+    shortcuts.append(QKeySequence(Qt::Key_F5));
+    exportgiftAct->setShortcuts(shortcuts);
+    exportgiftAct->setStatusTip(tr("Export the document to GIFT format"));
+    connect(exportgiftAct, &QAction::triggered, this, &MainWindow::exportgift);
+    fileToolBar->addAction(exportgiftAct);
+    fileMenu->addAction(exportgiftAct);
 
     const QIcon saveAsIcon = QIcon::fromTheme("document-save-as");
     saveAsAct = new QAction(saveAsIcon, tr("Save &As..."), this);
