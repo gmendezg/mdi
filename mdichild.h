@@ -65,6 +65,7 @@ public:
     bool exportgift();
     bool save();
     bool saveAs();
+    bool exportgitFile(const QString &fileName);
     bool saveFile(const QString &fileName);
     QString userFriendlyCurrentFile();
     QString currentFile() { return curFile; }

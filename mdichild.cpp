@@ -97,10 +97,12 @@ bool MdiChild::loadFile(const QString &fileName)
 bool MdiChild::exportgift()
 {
     if (isUntitled) {
-        return saveAs();
-    } else {
-        return saveFile(curFile);
+       saveAs();
     }
+    if (isUntitled)
+        return NULL;
+    else
+        return exportgitFile(curFile+".gift");
 }
 
 bool MdiChild::save()
@@ -122,6 +124,25 @@ bool MdiChild::saveAs()
     return saveFile(fileName);
 }
 
+
+bool MdiChild::exportgitFile(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("MDI"),
+                             tr("Cannot export file %1:\n%2.")
+                             .arg(QDir::toNativeSeparators(fileName), file.errorString()));
+        return false;
+    }
+
+    QTextStream out(&file);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    out << toPlainText();
+    QApplication::restoreOverrideCursor();
+
+    setCurrentFile(fileName);
+    return true;
+}
 bool MdiChild::saveFile(const QString &fileName)
 {
     QFile file(fileName);
